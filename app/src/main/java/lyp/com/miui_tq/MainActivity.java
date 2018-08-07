@@ -18,16 +18,16 @@ public class MainActivity extends AppCompatActivity {
     private EditText inputMin,inputMax,inputCurrent;
     private Button btnSure;
 
-    private int min,max,center1;
+    private int min,max,center;
 
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case TAG:
-                    mCircleDial.setAngle(min,max);
-                    mCircleDial.setMinMaxTem(min,max);
-                    mCircleDial.setCenterTemper(center1);
+                    mCircleDial.setAngle(center);
+//                    mCircleDial.setMinMaxTem(min,max);
+//                    mCircleDial.setCenterTemper(center);
             }
         }
     };
@@ -49,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        min = Integer.parseInt(inputMin.getText().toString());
-                        max = Integer.parseInt(inputMax.getText().toString());
-                        center1 = Integer.parseInt(inputCurrent.getText().toString());
+//                        min = Integer.parseInt(inputMin.getText().toString());
+//                        max = Integer.parseInt(inputMax.getText().toString());
+                        center = Integer.parseInt(inputCurrent.getText().toString());
 
                         Message msg = new Message();
                         msg.what = TAG;

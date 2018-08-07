@@ -77,17 +77,25 @@ public class CircleDial extends View {
         mTextPaint.setStrokeWidth(4);
         mTextPaint.setAntiAlias(true);
 
-        setAngle(startTem,stopTem);
+        setAngle(centerTemper);
     }
 
     /**
      * 根据最低温度和最高温度计算出 开始和结束角度
      * 为了简单计算 我们设定开始角度和结束角度夹角为60°
-     * @param minTemp 最低温度
-     * @param maxTemp 最高温度
+     * @param temp 最低温度
+     * @param temp 最高温度
      */
-    public void setAngle(int minTemp,int maxTemp) {
-        if ((minTemp>=0&&minTemp<50) && (maxTemp>=0&&maxTemp<=60)) {
+    public void setAngle(int temp) {
+        if (temp >= 10) {
+            temp = 3 * temp - 30;
+        } else {
+            temp = 330 + 3 * temp;
+        }
+        this.startAngle = (temp + 330) < 360 ? (temp + 330) : (temp - 30);
+        this.stopAngle = (temp + 30) < 360 ? (temp + 30) : (temp - 330);
+        invalidate();
+        /*if ((minTemp>=0&&minTemp<50) && (maxTemp>=0&&maxTemp<=60)) {
             //当最低温度大于0时
             this.startAngle = minTemp*2;
 
@@ -111,8 +119,7 @@ public class CircleDial extends View {
             //当最低温度小于0，最高温度大于0时
             this.stopAngle = maxTemp*2;
             this.startAngle = (360-(60-stopAngle));
-        }
-        invalidate();
+        }*/
     }
 
     /**
