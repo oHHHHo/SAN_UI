@@ -40,7 +40,7 @@ public class CircleDial extends View {
     private Paint linePaint; // 线条画笔
     private TextPaint mTextPaint; //文字画笔
     // 有渐变颜色的旋转起止角度
-    private float startAngle ,stopAngle;
+    private float startAngle ,stopAngle, nowAngle;
     // 圆半径 线长度
     private float r, l;
     //设置渐变色
@@ -83,8 +83,7 @@ public class CircleDial extends View {
     /**
      * 根据最低温度和最高温度计算出 开始和结束角度
      * 为了简单计算 我们设定开始角度和结束角度夹角为60°
-     * @param temp 最低温度
-     * @param temp 最高温度
+     * @param temp 温度
      */
     public void setAngle(int temp) {
         if (temp >= 10) {
@@ -92,6 +91,7 @@ public class CircleDial extends View {
         } else {
             temp = 330 + 3 * temp;
         }
+        this.nowAngle = temp;
         this.startAngle = (temp + 330) < 360 ? (temp + 330) : (temp - 30);
         this.stopAngle = (temp + 30) < 360 ? (temp + 30) : (temp - 330);
         invalidate();
@@ -188,6 +188,7 @@ public class CircleDial extends View {
         //绘制最低温度、最高温度、中心实时温度
         drawCenterTem(canvas);
         drawStartTem(canvas);
+        drawNowTem(canvas);
         drawStopTem(canvas);
 
         canvas.restore();
@@ -236,6 +237,12 @@ public class CircleDial extends View {
         mTextPaint.setTextSize(r * 0.1f);
         canvas.drawText(startTem + "°",  calculateX(r * 1.1f, startAngle),
                 calculateY(r * 1.1f, startAngle), mTextPaint);
+    }
+
+    private void drawNowTem(Canvas canvas) {
+        mTextPaint.setTextSize(r * 0.2f);
+        canvas.drawText("*", calculateX(r * 0.7f, nowAngle),
+                calculateY(r * 0.7f, nowAngle), mTextPaint);
     }
 
     /**
